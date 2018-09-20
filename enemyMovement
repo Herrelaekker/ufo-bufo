@@ -1,0 +1,52 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Collections;
+
+public class Enemymovement : MonoBehaviour {
+
+    public float speed;
+
+    public bool movingRight;
+
+	// Use this for initialization
+	void Start () {
+	    
+	}
+	
+	// Update is called once per frame
+	void Update () {
+        if (movingRight)
+        {
+            transform.Translate(speed * Time.deltaTime, 0, 0);
+        }
+        else
+            transform.Translate(-speed * Time.deltaTime, 0, 0);
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("hovhov");
+        if (other.gameObject.tag == "Wall")
+        {
+            Debug.Log("hov");
+            if (movingRight)
+            {
+                movingRight = false;
+            }
+            else if (!movingRight)
+            {
+                movingRight = true;
+            }   
+        }
+
+        if (other.gameObject.tag == "Player")
+        {
+            restartCurrentScene();
+        }
+    }
+
+    public void restartCurrentScene()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
+    }
+}
